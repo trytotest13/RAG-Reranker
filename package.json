@@ -1,0 +1,14 @@
+{
+  "name": "jev-rag-reranker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Jev scores query-chunk relevance and reranks retrieval results with a visible diff",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jev RAG Reranker</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <span class="num">05 / RAG RERANKING</span>
+    <h1>Jev RAG Reranker</h1>
+    <p class="job">Scores each retrieved chunk against the query and reranks the top 5.</p>
+  </header>
+
+  <div class="panels">
+    <section class="panel" aria-label="Input">
+      <label for="query">Query</label>
+      <input type="text" id="query" placeholder="Ask against the 24-chunk corpus" autocomplete="off">
+
+      <h2>Try an example</h2>
+      <div class="chips" id="chips"></div>
+
+      <button id="rerankBtn">Rerank chunks</button>
+      <p class="hint">Enter reranks. Corpus order doubles as the naive baseline order.</p>
+      <p class="error" id="error" role="alert" hidden></p>
+    </section>
+
+    <section class="panel" aria-label="Ranking">
+      <div class="verdict empty" id="verdict">
+        <span class="word">No query reranked yet.</span>
+      </div>
+
+      <div id="out" hidden>
+        <p class="diff" id="diff"></p>
+        <label class="toggle">
+          <input type="checkbox" id="showAll">
+          Show all 24 chunks
+        </label>
+        <ol class="res" id="results"></ol>
+      </div>
+
+      <h2>Ledger</h2>
+      <ul class="ledger" id="ledger">
+        <li class="muted">No queries reranked yet this session.</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="panel batch" aria-label="Corpus">
+    <h2 class="tight">Corpus (stands in for retrieval results)</h2>
+    <table>
+      <thead><tr><th>Id</th><th>Chunk</th></tr></thead>
+      <tbody id="corpusBody"></tbody>
+    </table>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
