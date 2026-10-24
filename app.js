@@ -1,6 +1,11 @@
 'use strict';
 
 const $ = (id) => document.getElementById(id);
+
+// User text reaches the DOM through innerHTML templates; escape it there.
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
 const queryEl = $('query');
 const rerankBtn = $('rerankBtn');
 const errorEl = $('error');
@@ -44,7 +49,7 @@ function rowHtml(r, i) {
   return (
     `<li class="res-row${dim}">` +
     `<span class="rank">${i + 1}</span>` +
-    `<span class="body"><span class="title">${r.title} ${tag}</span>` +
+    `<span class="body"><span class="title">${esc(r.title)} ${tag}</span>` +
     `<span class="track"><span class="fill" style="width:${Math.round(r.score * 100)}%"></span></span></span>` +
     `<span class="score">${r.score.toFixed(3)}</span></li>`
   );
@@ -53,7 +58,7 @@ function rowHtml(r, i) {
 function render(data) {
   verdictEl.className = 'verdict';
   verdictEl.innerHTML =
-    `<span class="q">${data.query}</span>` +
+    `<span class="q">${esc(data.query)}</span>` +
     `<span class="meta">${data.results.length} chunks scored, baseline was corpus order c01-c05</span>`;
 
   const promoted = data.promoted.length
@@ -83,8 +88,8 @@ function renderLedger() {
   }
   ledgerEl.innerHTML = ledger
     .map((e) =>
-      `<li><span class="ex">${e.excerpt}</span>` +
-      `<span class="sc">top: ${e.topTitle} ${e.topScore.toFixed(3)}</span></li>`)
+      `<li><span class="ex">${esc(e.excerpt)}</span>` +
+      `<span class="sc">top: ${esc(e.topTitle)} ${e.topScore.toFixed(3)}</span></li>`)
     .join('');
 }
 
@@ -130,7 +135,7 @@ async function loadCorpus() {
         `<td><strong>${c.title}</strong> <span class="tx">${c.text}</span></td></tr>`)
       .join('');
   } catch (err) {
-    corpusBody.innerHTML = `<tr><td colspan="2" class="tx">Corpus unavailable: ${err.message}</td></tr>`;
+    corpusBody.innerHTML = `<tr><td colspan="2" class="tx">Corpus unavailable: ${esc(err.message)}</td></tr>`;
   }
 }
 
